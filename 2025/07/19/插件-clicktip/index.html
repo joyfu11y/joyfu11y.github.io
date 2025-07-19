@@ -1,0 +1,316 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>插件-clicktip | joyfu11yの小屋</title><meta name="author" content="joyfu11y"><meta name="copyright" content="joyfu11y"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="为你的 Hexo 博客添加交互式点击提示：clicktip 插件详解在博客写作中，我们经常需要对某些词语或概念进行补充说明。传统的做法要么是使用括号注释打断阅读 flow，要么是使用脚注需要读者跳转查看。今天我要介绍一款自己开发的 Hexo 插件 ——clicktip，它能让你的读者通过点击词语就能查看详细说明，既保持了文章的简洁性，又提供了丰富的补充信息。 什么是 clicktip 插件？cli">
+<meta property="og:type" content="article">
+<meta property="og:title" content="插件-clicktip">
+<meta property="og:url" content="http://joyfu11y.github.io/2025/07/19/%E6%8F%92%E4%BB%B6-clicktip/index.html">
+<meta property="og:site_name" content="joyfu11yの小屋">
+<meta property="og:description" content="为你的 Hexo 博客添加交互式点击提示：clicktip 插件详解在博客写作中，我们经常需要对某些词语或概念进行补充说明。传统的做法要么是使用括号注释打断阅读 flow，要么是使用脚注需要读者跳转查看。今天我要介绍一款自己开发的 Hexo 插件 ——clicktip，它能让你的读者通过点击词语就能查看详细说明，既保持了文章的简洁性，又提供了丰富的补充信息。 什么是 clicktip 插件？cli">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://joyfu11y.github.io/img/butterfly-icon.png">
+<meta property="article:published_time" content="2025-07-19T06:38:13.000Z">
+<meta property="article:modified_time" content="2025-07-19T07:03:02.646Z">
+<meta property="article:author" content="joyfu11y">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://joyfu11y.github.io/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "插件-clicktip",
+  "url": "http://joyfu11y.github.io/2025/07/19/%E6%8F%92%E4%BB%B6-clicktip/",
+  "image": "http://joyfu11y.github.io/img/butterfly-icon.png",
+  "datePublished": "2025-07-19T06:38:13.000Z",
+  "dateModified": "2025-07-19T07:03:02.646Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "joyfu11y",
+      "url": "http://joyfu11y.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://joyfu11y.github.io/2025/07/19/%E6%8F%92%E4%BB%B6-clicktip/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '插件-clicktip',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">joyfu11yの小屋</span></a><a class="nav-page-title" href="/"><span class="site-name">插件-clicktip</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">插件-clicktip</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-07-19T06:38:13.000Z" title="发表于 2025-07-19 14:38:13">2025-07-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-07-19T07:03:02.646Z" title="更新于 2025-07-19 15:03:02">2025-07-19</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="为你的-Hexo-博客添加交互式点击提示：clicktip-插件详解"><a href="#为你的-Hexo-博客添加交互式点击提示：clicktip-插件详解" class="headerlink" title="为你的 Hexo 博客添加交互式点击提示：clicktip 插件详解"></a>为你的 Hexo 博客添加交互式点击提示：clicktip 插件详解</h1><p>在博客写作中，我们经常需要对某些词语或概念进行补充说明。传统的做法要么是使用括号注释打断阅读 flow，要么是使用脚注需要读者跳转查看。今天我要介绍一款自己开发的 Hexo 插件 ——clicktip，它能让你的读者通过点击词语就能查看详细说明，既保持了文章的简洁性，又提供了丰富的补充信息。</p>
+<h1 id="什么是-clicktip-插件？"><a href="#什么是-clicktip-插件？" class="headerlink" title="什么是 clicktip 插件？"></a>什么是 clicktip 插件？</h1><p><code>clicktip</code> 是一款专为 Hexo 博客设计的标签插件，它允许你在文章中为任意词语添加点击提示功能。当读者点击带有提示的词语时，会显示预设的解释内容，再次点击或点击其他地方则会关闭提示。这种交互方式既直观又不影响正常阅读，非常适合添加注释、解释专业术语或提供额外背景信息。</p>
+<h1 id="插件特点"><a href="#插件特点" class="headerlink" title="插件特点"></a>插件特点</h1><p>-<strong>简洁易用</strong>：通过简单的标签语法即可为词语添加提示功能<br>-<strong>样式丰富</strong>：支持多种触发元素样式（下划线、虚线等）<br>-<strong>交互友好</strong>：提供高亮、颜色变化等悬停效果<br>-<strong>智能定位</strong>：提示框会根据页面空间自动选择最佳显示位置<br>-<strong>响应式设计</strong>：在不同屏幕尺寸下都能良好展示<br>-<strong>无冲突保证</strong>：通过唯一 ID 机制确保页面中多个提示框正常工作</p>
+<h1 id="安装方法"><a href="#安装方法" class="headerlink" title="安装方法"></a>安装方法</h1><p>安装 <code>clicktip</code> 插件非常简单：<br>1.在你的 Hexo 博客根目录下，创建 <code>scripts</code> 文件夹（如果已存在则忽略）<br>2.在 <code>scripts</code> 文件夹中创建 <code>clicktip.js</code> 文件，并将插件代码复制进去</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 计数器确保ID唯一性</span></span><br><span class="line"><span class="keyword">let</span> clickTipCounter = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">hexo.<span class="property">extend</span>.<span class="property">tag</span>.<span class="title function_">register</span>(<span class="string">&#x27;clt&#x27;</span>, <span class="keyword">function</span>(<span class="params">args</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> word = args[<span class="number">0</span>];</span><br><span class="line">  <span class="keyword">const</span> tip = args[<span class="number">1</span>].<span class="title function_">replace</span>(<span class="regexp">/&quot;/g</span>, <span class="string">&#x27;&#x27;</span>);</span><br><span class="line">  <span class="keyword">const</span> styleType = args[<span class="number">2</span>] || <span class="string">&#x27;none&#x27;</span>;</span><br><span class="line">  <span class="keyword">const</span> hoverEffect = args[<span class="number">3</span>] || <span class="string">&#x27;none&#x27;</span>; <span class="comment">// 新增：悬停效果参数</span></span><br><span class="line">  <span class="keyword">const</span> hoverColor = args[<span class="number">4</span>] || <span class="string">&#x27;#2c3e50&#x27;</span>; <span class="comment">// 新增：悬停颜色参数</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 使用递增计数器生成唯一ID</span></span><br><span class="line">  <span class="keyword">const</span> uniqueId = <span class="string">`click-tip-<span class="subst">$&#123;<span class="built_in">Date</span>.now()&#125;</span>-<span class="subst">$&#123;clickTipCounter++&#125;</span>`</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 设置触发元素的类</span></span><br><span class="line">  <span class="keyword">let</span> triggerClasses = <span class="string">&#x27;click-tip-trigger&#x27;</span>;</span><br><span class="line">  <span class="keyword">if</span> (styleType === <span class="string">&#x27;underline&#x27;</span>) triggerClasses += <span class="string">&#x27; click-tip-underline&#x27;</span>;</span><br><span class="line">  <span class="keyword">if</span> (styleType === <span class="string">&#x27;dashed&#x27;</span>) triggerClasses += <span class="string">&#x27; click-tip-dashed&#x27;</span>;</span><br><span class="line">  <span class="keyword">if</span> (hoverEffect === <span class="string">&#x27;highlight&#x27;</span>) triggerClasses += <span class="string">&#x27; click-tip-highlight&#x27;</span>;</span><br><span class="line">  <span class="keyword">if</span> (hoverEffect === <span class="string">&#x27;color&#x27;</span>) triggerClasses += <span class="string">&#x27; click-tip-color&#x27;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 添加自定义数据属性</span></span><br><span class="line">  <span class="keyword">const</span> dataAttrs = hoverEffect === <span class="string">&#x27;color&#x27;</span> ? <span class="string">`data-hover-color=&quot;<span class="subst">$&#123;hoverColor&#125;</span>&quot;`</span> : <span class="string">&#x27;&#x27;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="string">`</span></span><br><span class="line"><span class="string">    &lt;span class=&quot;click-tip-wrapper&quot; data-id=&quot;<span class="subst">$&#123;uniqueId&#125;</span>&quot;&gt;</span></span><br><span class="line"><span class="string">      &lt;span id=&quot;<span class="subst">$&#123;uniqueId&#125;</span>-trigger&quot; class=&quot;<span class="subst">$&#123;triggerClasses&#125;</span>&quot; <span class="subst">$&#123;dataAttrs&#125;</span>&gt;</span></span><br><span class="line"><span class="string">        <span class="subst">$&#123;word&#125;</span></span></span><br><span class="line"><span class="string">      &lt;/span&gt;</span></span><br><span class="line"><span class="string">      &lt;span id=&quot;<span class="subst">$&#123;uniqueId&#125;</span>-content&quot; class=&quot;click-tip-content&quot;&gt;</span></span><br><span class="line"><span class="string">        <span class="subst">$&#123;tip&#125;</span></span></span><br><span class="line"><span class="string">      &lt;/span&gt;</span></span><br><span class="line"><span class="string">    &lt;/span&gt;</span></span><br><span class="line"><span class="string">  `</span>;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 注册过滤器，在HTML渲染后添加统一的样式和脚本</span></span><br><span class="line">hexo.<span class="property">extend</span>.<span class="property">filter</span>.<span class="title function_">register</span>(<span class="string">&#x27;after_render:html&#x27;</span>, <span class="keyword">function</span>(<span class="params">html</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> script = <span class="string">`</span></span><br><span class="line"><span class="string">    &lt;style&gt;</span></span><br><span class="line"><span class="string">      .click-tip-wrapper &#123; position: relative; display: inline-block; &#125;</span></span><br><span class="line"><span class="string">      .click-tip-trigger &#123; cursor: pointer; color: #2c3e50; transition: all 0.2s; &#125;</span></span><br><span class="line"><span class="string">      .click-tip-underline &#123; text-decoration: underline; &#125;</span></span><br><span class="line"><span class="string">      .click-tip-dashed &#123; border-bottom: 1px dashed #999; &#125;</span></span><br><span class="line"><span class="string">      .click-tip-highlight:hover &#123; background-color: rgba(0,0,0,0.05); &#125;</span></span><br><span class="line"><span class="string">      .click-tip-color:hover &#123; color: var(--hover-color, #3498db); &#125;</span></span><br><span class="line"><span class="string">      </span></span><br><span class="line"><span class="string">      .click-tip-content &#123;</span></span><br><span class="line"><span class="string">        display: none;</span></span><br><span class="line"><span class="string">        position: absolute;</span></span><br><span class="line"><span class="string">        padding: 8px 12px;</span></span><br><span class="line"><span class="string">        background: #fff;</span></span><br><span class="line"><span class="string">        border: 1px solid #eaecef;</span></span><br><span class="line"><span class="string">        border-radius: 4px;</span></span><br><span class="line"><span class="string">        font-size: 0.9em;</span></span><br><span class="line"><span class="string">        color: #333;</span></span><br><span class="line"><span class="string">        white-space: nowrap;</span></span><br><span class="line"><span class="string">        z-index: 100;</span></span><br><span class="line"><span class="string">        box-shadow: 0 4px 12px rgba(0,0,0,0.08);</span></span><br><span class="line"><span class="string">        opacity: 0;</span></span><br><span class="line"><span class="string">        transform: translateY(8px);</span></span><br><span class="line"><span class="string">        transition: opacity 0.2s ease, transform 0.2s ease;</span></span><br><span class="line"><span class="string">      &#125;</span></span><br><span class="line"><span class="string">      </span></span><br><span class="line"><span class="string">      .click-tip-content.active &#123;</span></span><br><span class="line"><span class="string">        display: block;</span></span><br><span class="line"><span class="string">        opacity: 1;</span></span><br><span class="line"><span class="string">        transform: translateY(0);</span></span><br><span class="line"><span class="string">      &#125;</span></span><br><span class="line"><span class="string">      </span></span><br><span class="line"><span class="string">      /* 响应式定位样式 */</span></span><br><span class="line"><span class="string">      .click-tip-content.position-top &#123; top: auto; bottom: 100%; margin-bottom: 8px; &#125;</span></span><br><span class="line"><span class="string">      .click-tip-content.position-right &#123; left: 100%; top: 0; margin-left: 8px; &#125;</span></span><br><span class="line"><span class="string">      .click-tip-content.position-left &#123; left: auto; right: 100%; top: 0; margin-right: 8px; &#125;</span></span><br><span class="line"><span class="string">    &lt;/style&gt;</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    &lt;script&gt;</span></span><br><span class="line"><span class="string">      document.addEventListener(&#x27;DOMContentLoaded&#x27;, function() &#123;</span></span><br><span class="line"><span class="string">        // 设置颜色悬停效果</span></span><br><span class="line"><span class="string">        document.querySelectorAll(&#x27;.click-tip-color&#x27;).forEach(el =&gt; &#123;</span></span><br><span class="line"><span class="string">          const hoverColor = el.dataset.hoverColor || &#x27;#3498db&#x27;;</span></span><br><span class="line"><span class="string">          el.style.setProperty(&#x27;--hover-color&#x27;, hoverColor);</span></span><br><span class="line"><span class="string">        &#125;);</span></span><br><span class="line"><span class="string">        </span></span><br><span class="line"><span class="string">        // 事件委托处理所有点击</span></span><br><span class="line"><span class="string">        document.body.addEventListener(&#x27;click&#x27;, function(e) &#123;</span></span><br><span class="line"><span class="string">          const trigger = e.target.closest(&#x27;.click-tip-trigger&#x27;);</span></span><br><span class="line"><span class="string">          if (!trigger) return;</span></span><br><span class="line"><span class="string">          </span></span><br><span class="line"><span class="string">          e.stopPropagation();</span></span><br><span class="line"><span class="string">          const wrapper = trigger.closest(&#x27;.click-tip-wrapper&#x27;);</span></span><br><span class="line"><span class="string">          const content = wrapper.querySelector(&#x27;.click-tip-content&#x27;);</span></span><br><span class="line"><span class="string">          const isActive = content.classList.contains(&#x27;active&#x27;);</span></span><br><span class="line"><span class="string">          </span></span><br><span class="line"><span class="string">          // 关闭所有提示框</span></span><br><span class="line"><span class="string">          document.querySelectorAll(&#x27;.click-tip-content.active&#x27;).forEach(el =&gt; &#123;</span></span><br><span class="line"><span class="string">            el.classList.remove(&#x27;active&#x27;);</span></span><br><span class="line"><span class="string">          &#125;);</span></span><br><span class="line"><span class="string">          </span></span><br><span class="line"><span class="string">          // 切换当前提示框</span></span><br><span class="line"><span class="string">          if (!isActive) &#123;</span></span><br><span class="line"><span class="string">            positionTooltip(wrapper);</span></span><br><span class="line"><span class="string">            content.classList.add(&#x27;active&#x27;);</span></span><br><span class="line"><span class="string">          &#125;</span></span><br><span class="line"><span class="string">        &#125;);</span></span><br><span class="line"><span class="string">        </span></span><br><span class="line"><span class="string">        // 点击外部关闭提示框</span></span><br><span class="line"><span class="string">        document.addEventListener(&#x27;click&#x27;, function() &#123;</span></span><br><span class="line"><span class="string">          document.querySelectorAll(&#x27;.click-tip-content.active&#x27;).forEach(el =&gt; &#123;</span></span><br><span class="line"><span class="string">            el.classList.remove(&#x27;active&#x27;);</span></span><br><span class="line"><span class="string">          &#125;);</span></span><br><span class="line"><span class="string">        &#125;);</span></span><br><span class="line"><span class="string">        </span></span><br><span class="line"><span class="string">        // 智能定位提示框</span></span><br><span class="line"><span class="string">        function positionTooltip(wrapper) &#123;</span></span><br><span class="line"><span class="string">          const content = wrapper.querySelector(&#x27;.click-tip-content&#x27;);</span></span><br><span class="line"><span class="string">          const trigger = wrapper.querySelector(&#x27;.click-tip-trigger&#x27;);</span></span><br><span class="line"><span class="string">          </span></span><br><span class="line"><span class="string">          // 重置位置</span></span><br><span class="line"><span class="string">          content.className = &#x27;click-tip-content&#x27;;</span></span><br><span class="line"><span class="string">          </span></span><br><span class="line"><span class="string">          // 获取视口尺寸和元素位置</span></span><br><span class="line"><span class="string">          const viewportWidth = window.innerWidth;</span></span><br><span class="line"><span class="string">          const viewportHeight = window.innerHeight;</span></span><br><span class="line"><span class="string">          const &#123; top, left, width, height &#125; = trigger.getBoundingClientRect();</span></span><br><span class="line"><span class="string">          const tipWidth = content.offsetWidth;</span></span><br><span class="line"><span class="string">          const tipHeight = content.offsetHeight;</span></span><br><span class="line"><span class="string">          </span></span><br><span class="line"><span class="string">          // 计算可用空间</span></span><br><span class="line"><span class="string">          const spaceRight = viewportWidth - (left + width);</span></span><br><span class="line"><span class="string">          const spaceLeft = left;</span></span><br><span class="line"><span class="string">          const spaceBelow = viewportHeight - (top + height);</span></span><br><span class="line"><span class="string">          const spaceAbove = top;</span></span><br><span class="line"><span class="string">          </span></span><br><span class="line"><span class="string">          // 智能定位逻辑</span></span><br><span class="line"><span class="string">          if (spaceBelow &gt;= tipHeight) &#123;</span></span><br><span class="line"><span class="string">            // 默认下方</span></span><br><span class="line"><span class="string">            content.style.top = &#x27;calc(100% + 8px)&#x27;;</span></span><br><span class="line"><span class="string">            content.style.left = &#x27;0&#x27;;</span></span><br><span class="line"><span class="string">          &#125; else if (spaceAbove &gt;= tipHeight) &#123;</span></span><br><span class="line"><span class="string">            // 上方</span></span><br><span class="line"><span class="string">            content.classList.add(&#x27;position-top&#x27;);</span></span><br><span class="line"><span class="string">            content.style.left = &#x27;0&#x27;;</span></span><br><span class="line"><span class="string">          &#125; else if (spaceRight &gt;= tipWidth) &#123;</span></span><br><span class="line"><span class="string">            // 右侧</span></span><br><span class="line"><span class="string">            content.classList.add(&#x27;position-right&#x27;);</span></span><br><span class="line"><span class="string">            content.style.top = &#x27;0&#x27;;</span></span><br><span class="line"><span class="string">          &#125; else if (spaceLeft &gt;= tipWidth) &#123;</span></span><br><span class="line"><span class="string">            // 左侧</span></span><br><span class="line"><span class="string">            content.classList.add(&#x27;position-left&#x27;);</span></span><br><span class="line"><span class="string">            content.style.top = &#x27;0&#x27;;</span></span><br><span class="line"><span class="string">          &#125; else &#123;</span></span><br><span class="line"><span class="string">            // 缩小并居中显示</span></span><br><span class="line"><span class="string">            content.style.whiteSpace = &#x27;normal&#x27;;</span></span><br><span class="line"><span class="string">            content.style.maxWidth = &#x27;200px&#x27;;</span></span><br><span class="line"><span class="string">            content.style.top = &#x27;calc(100% + 8px)&#x27;;</span></span><br><span class="line"><span class="string">            content.style.left = &#x27;50%&#x27;;</span></span><br><span class="line"><span class="string">            content.style.transform = &#x27;translateX(-50%)&#x27;;</span></span><br><span class="line"><span class="string">          &#125;</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">        </span></span><br><span class="line"><span class="string">        // 窗口大小改变时重新定位</span></span><br><span class="line"><span class="string">        window.addEventListener(&#x27;resize&#x27;, function() &#123;</span></span><br><span class="line"><span class="string">          document.querySelectorAll(&#x27;.click-tip-content.active&#x27;).forEach(content =&gt; &#123;</span></span><br><span class="line"><span class="string">            const wrapper = content.closest(&#x27;.click-tip-wrapper&#x27;);</span></span><br><span class="line"><span class="string">            positionTooltip(wrapper);</span></span><br><span class="line"><span class="string">          &#125;);</span></span><br><span class="line"><span class="string">        &#125;);</span></span><br><span class="line"><span class="string">      &#125;);</span></span><br><span class="line"><span class="string">    &lt;/script&gt;</span></span><br><span class="line"><span class="string">  `</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 将脚本和样式添加到页面底部</span></span><br><span class="line">  <span class="keyword">return</span> html.<span class="title function_">replace</span>(<span class="string">&#x27;&lt;/body&gt;&#x27;</span>, script + <span class="string">&#x27;&lt;/body&gt;&#x27;</span>);</span><br><span class="line">&#125;);    </span><br></pre></td></tr></table></figure>
+<p>3.清理 Hexo 生成的静态文件和缓存</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br></pre></td></tr></table></figure>
+<h1 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h1><p><code>clicktip</code> 插件提供了简洁的标签语法：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% clt 词语 &quot;提示内容&quot; [样式类型] [悬停效果] [悬停颜色] %&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>标签可改:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;代码第四行：</span><br><span class="line">&gt;hexo.<span class="property">extend</span>.<span class="property">tag</span>.<span class="title function_">register</span>(<span class="string">&#x27;clt&#x27;</span>, <span class="keyword">function</span>(<span class="params">args</span>)&#123;...&#125;);</span><br></pre></td></tr></table></figure></blockquote>
+<h2 id="参数说明："><a href="#参数说明：" class="headerlink" title="参数说明："></a>参数说明：</h2><p>-<strong>词语</strong>：需要添加提示的词语或短语<br>-<strong>提示内容</strong>：点击后显示的提示文本（需要用双引号包裹）<br>-<strong>样式类型</strong>（可选）：<br> -<code>none</code>：无特殊样式（默认）<br> -<code>underline</code>：下划线样式<br> -<code>dashed</code>：虚线样式<br>-<strong>悬停效果</strong>（可选）：<br> -<code>none</code>：无效果（默认）<br> -<code>highlight</code>：背景高亮效果<br> -<code>color</code>：文字变色效果<br>-<strong>悬停颜色</strong>（可选）：当悬停效果为 <code>color</code> 时生效，可指定颜色值（默认 #2c3e50）</p>
+<h2 id="示例："><a href="#示例：" class="headerlink" title="示例："></a>示例：</h2><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% clt &quot;提示&quot; &quot;这是一个提示&quot; underline color #ff0000 %&#125;</span><br></pre></td></tr></table></figure>
+
+    <span class="click-tip-wrapper" data-id="click-tip-1752908621875-0">
+      <span id="click-tip-1752908621875-0-trigger" class="click-tip-trigger click-tip-underline click-tip-color" data-hover-color="#ff0000">
+        提示
+      </span>
+      <span id="click-tip-1752908621875-0-content" class="click-tip-content">
+        这是一个提示
+      </span>
+    </span>
+  </article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://joyfu11y.github.io">joyfu11y</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://joyfu11y.github.io/2025/07/19/%E6%8F%92%E4%BB%B6-clicktip/">http://joyfu11y.github.io/2025/07/19/%E6%8F%92%E4%BB%B6-clicktip/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://joyfu11y.github.io" target="_blank">joyfu11yの小屋</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/07/19/%E5%8D%95%E8%AF%8D/" title="单词"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">单词</div></div><div class="info-2"><div class="info-item-1">   第一列 第二列 第三列 第四列 第五列    plenty imitate bare truth productivity   nonsense specifically marked  1                        plenty                       adj.足够的;n.充裕;富裕               </div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">joyfu11y</div><div class="author-info-description">正在搭建中</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%BA%E4%BD%A0%E7%9A%84-Hexo-%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0%E4%BA%A4%E4%BA%92%E5%BC%8F%E7%82%B9%E5%87%BB%E6%8F%90%E7%A4%BA%EF%BC%9Aclicktip-%E6%8F%92%E4%BB%B6%E8%AF%A6%E8%A7%A3"><span class="toc-number">1.</span> <span class="toc-text">为你的 Hexo 博客添加交互式点击提示：clicktip 插件详解</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-clicktip-%E6%8F%92%E4%BB%B6%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">什么是 clicktip 插件？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E7%89%B9%E7%82%B9"><span class="toc-number">3.</span> <span class="toc-text">插件特点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95"><span class="toc-number">4.</span> <span class="toc-text">安装方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">5.</span> <span class="toc-text">使用方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E%EF%BC%9A"><span class="toc-number">5.1.</span> <span class="toc-text">参数说明：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A"><span class="toc-number">5.2.</span> <span class="toc-text">示例：</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/07/19/%E6%8F%92%E4%BB%B6-clicktip/" title="插件-clicktip">插件-clicktip</a><time datetime="2025-07-19T06:38:13.000Z" title="发表于 2025-07-19 14:38:13">2025-07-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/07/19/%E5%8D%95%E8%AF%8D/" title="单词">单词</a><time datetime="2025-07-19T02:20:41.000Z" title="发表于 2025-07-19 10:20:41">2025-07-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/07/14/markdown%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" title="markdown基本语法">markdown基本语法</a><time datetime="2025-07-14T13:50:37.000Z" title="发表于 2025-07-14 21:50:37">2025-07-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/06/24/My-New-Post/" title="My New Post">My New Post</a><time datetime="2025-06-24T01:15:45.000Z" title="发表于 2025-06-24 09:15:45">2025-06-24</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;2025 By joyfu11y</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.4.0-b2</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div>
+    <style>
+      .click-tip-wrapper { position: relative; display: inline-block; }
+      .click-tip-trigger { cursor: pointer; color: #2c3e50; transition: all 0.2s; }
+      .click-tip-underline { text-decoration: underline; }
+      .click-tip-dashed { border-bottom: 1px dashed #999; }
+      .click-tip-highlight:hover { background-color: rgba(0,0,0,0.05); }
+      .click-tip-color:hover { color: var(--hover-color, #3498db); }
+      
+      .click-tip-content {
+        display: none;
+        position: absolute;
+        padding: 8px 12px;
+        background: #fff;
+        border: 1px solid #eaecef;
+        border-radius: 4px;
+        font-size: 0.9em;
+        color: #333;
+        white-space: nowrap;
+        z-index: 100;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        opacity: 0;
+        transform: translateY(8px);
+        transition: opacity 0.2s ease, transform 0.2s ease;
+      }
+      
+      .click-tip-content.active {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+      }
+      
+      /* 响应式定位样式 */
+      .click-tip-content.position-top { top: auto; bottom: 100%; margin-bottom: 8px; }
+      .click-tip-content.position-right { left: 100%; top: 0; margin-left: 8px; }
+      .click-tip-content.position-left { left: auto; right: 100%; top: 0; margin-right: 8px; }
+    </style>
+    
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // 设置颜色悬停效果
+        document.querySelectorAll('.click-tip-color').forEach(el => {
+          const hoverColor = el.dataset.hoverColor || '#3498db';
+          el.style.setProperty('--hover-color', hoverColor);
+        });
+        
+        // 事件委托处理所有点击
+        document.body.addEventListener('click', function(e) {
+          const trigger = e.target.closest('.click-tip-trigger');
+          if (!trigger) return;
+          
+          e.stopPropagation();
+          const wrapper = trigger.closest('.click-tip-wrapper');
+          const content = wrapper.querySelector('.click-tip-content');
+          const isActive = content.classList.contains('active');
+          
+          // 关闭所有提示框
+          document.querySelectorAll('.click-tip-content.active').forEach(el => {
+            el.classList.remove('active');
+          });
+          
+          // 切换当前提示框
+          if (!isActive) {
+            positionTooltip(wrapper);
+            content.classList.add('active');
+          }
+        });
+        
+        // 点击外部关闭提示框
+        document.addEventListener('click', function() {
+          document.querySelectorAll('.click-tip-content.active').forEach(el => {
+            el.classList.remove('active');
+          });
+        });
+        
+        // 智能定位提示框
+        function positionTooltip(wrapper) {
+          const content = wrapper.querySelector('.click-tip-content');
+          const trigger = wrapper.querySelector('.click-tip-trigger');
+          
+          // 重置位置
+          content.className = 'click-tip-content';
+          
+          // 获取视口尺寸和元素位置
+          const viewportWidth = window.innerWidth;
+          const viewportHeight = window.innerHeight;
+          const { top, left, width, height } = trigger.getBoundingClientRect();
+          const tipWidth = content.offsetWidth;
+          const tipHeight = content.offsetHeight;
+          
+          // 计算可用空间
+          const spaceRight = viewportWidth - (left + width);
+          const spaceLeft = left;
+          const spaceBelow = viewportHeight - (top + height);
+          const spaceAbove = top;
+          
+          // 智能定位逻辑
+          if (spaceBelow >= tipHeight) {
+            // 默认下方
+            content.style.top = 'calc(100% + 8px)';
+            content.style.left = '0';
+          } else if (spaceAbove >= tipHeight) {
+            // 上方
+            content.classList.add('position-top');
+            content.style.left = '0';
+          } else if (spaceRight >= tipWidth) {
+            // 右侧
+            content.classList.add('position-right');
+            content.style.top = '0';
+          } else if (spaceLeft >= tipWidth) {
+            // 左侧
+            content.classList.add('position-left');
+            content.style.top = '0';
+          } else {
+            // 缩小并居中显示
+            content.style.whiteSpace = 'normal';
+            content.style.maxWidth = '200px';
+            content.style.top = 'calc(100% + 8px)';
+            content.style.left = '50%';
+            content.style.transform = 'translateX(-50%)';
+          }
+        }
+        
+        // 窗口大小改变时重新定位
+        window.addEventListener('resize', function() {
+          document.querySelectorAll('.click-tip-content.active').forEach(content => {
+            const wrapper = content.closest('.click-tip-wrapper');
+            positionTooltip(wrapper);
+          });
+        });
+      });
+    </script>
+  </body></html>
