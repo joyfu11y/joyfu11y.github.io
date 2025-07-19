@@ -1,0 +1,206 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>My New Post | joyfu11yの小屋</title><meta name="author" content="joyfu11y"><meta name="copyright" content="joyfu11y"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="初始化项目后，blog-hexo有如下结构：【node_modules】：依赖包【scaffolds】：生成文章的一些模板【source】：用来存放你的文章【themes】：主题【.npmignore】：发布时忽略的文件（可忽略）【_config.landscape.yml】：主题的配置文件【_config.yml】：博客的配置文件【package.json】：项目名称、描述、版本、运行和开发等信">
+<meta property="og:type" content="article">
+<meta property="og:title" content="My New Post">
+<meta property="og:url" content="http://example.com/2025/06/24/My-New-Post/index.html">
+<meta property="og:site_name" content="joyfu11yの小屋">
+<meta property="og:description" content="初始化项目后，blog-hexo有如下结构：【node_modules】：依赖包【scaffolds】：生成文章的一些模板【source】：用来存放你的文章【themes】：主题【.npmignore】：发布时忽略的文件（可忽略）【_config.landscape.yml】：主题的配置文件【_config.yml】：博客的配置文件【package.json】：项目名称、描述、版本、运行和开发等信">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/butterfly-icon.png">
+<meta property="article:published_time" content="2025-06-24T01:15:45.000Z">
+<meta property="article:modified_time" content="2025-07-14T03:24:48.672Z">
+<meta property="article:author" content="joyfu11y">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "My New Post",
+  "url": "http://example.com/2025/06/24/My-New-Post/",
+  "image": "http://example.com/img/butterfly-icon.png",
+  "datePublished": "2025-06-24T01:15:45.000Z",
+  "dateModified": "2025-07-14T03:24:48.672Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "joyfu11y",
+      "url": "http://example.com/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2025/06/24/My-New-Post/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'My New Post',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">joyfu11yの小屋</span></a><a class="nav-page-title" href="/"><span class="site-name">My New Post</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">My New Post</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-06-24T01:15:45.000Z" title="发表于 2025-06-24 09:15:45">2025-06-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-07-14T03:24:48.672Z" title="更新于 2025-07-14 11:24:48">2025-07-14</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>初始化项目后，blog-hexo有如下结构：<br>【node_modules】：依赖包<br>【scaffolds】：生成文章的一些模板<br>【source】：用来存放你的文章<br>【themes】：主题<br>【.npmignore】：发布时忽略的文件（可忽略）<br>【_config.landscape.yml】：主题的配置文件<br>【_config.yml】：博客的配置文件<br>【package.json】：项目名称、描述、版本、运行和开发等信息</p>
+<p>在blog-hexo目录下的_config.yml，就是整个Hexo框架的配置文件了。可以在里面修改大部分的配置。详细可参考官方的<a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/configuration">配置描述</a>。</p>
+<p>hexo server或者hexo s<br>启动本地服务器。默认情况下，访问网址为： <a target="_blank" rel="noopener" href="http://localhost:4000/">http://localhost:4000/</a></p>
+<p>修改好配置后，运行如下命令，将代码部署到 GitHub。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
+<p>hexo clean：删除之前生成的文件，若未生成过静态文件，可忽略此命令。<br>hexo generate：生成静态文章，可以用hexo g缩写<br>hexo deploy：部署文章，可以用hexo d缩写</p>
+<p>Hexo会自动合併主题中的_config.yml和 _config.butterfly.yml里的配置，如果存在同名配置，会使用_config.butterfly.yml的配置，其优先度较高。</p>
+<p>Front-matter<br>Front-matter 是 markdown 文件最上方以—分隔的区域，用于指定个别档案的变数。</p>
+<p>Page Front-matter 用于页面配置<br>Post Front-matter 用于文章页配置</p>
+<figure class="highlight plaintext"><figcaption><span>Front-matter</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title:</span><br><span class="line">date:</span><br><span class="line">updated:</span><br><span class="line">type:</span><br><span class="line">comments:</span><br><span class="line">description:</span><br><span class="line">keywords:</span><br><span class="line">top_img:</span><br><span class="line">mathjax:</span><br><span class="line">katex:</span><br><span class="line">aside:</span><br><span class="line">aplayer:</span><br><span class="line">highlight_shrink:</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<p>写法	     解释<br>title	    【必需】页面标题<br>date	    【必需】页面创建日期<br>type	    【必需】标签、分类和友情链接三个页面需要配置<br>updated	    【可选】页面更新日期<br>description	【可选】页面描述<br>keywords	【可选】页面关键字<br>comments	【可选】显示页面评论模块(默认 true)<br>top_img	    【可选】页面顶部图片<br>mathjax	    【可选】显示mathjax(当设置mathjax的per_page: false时，才需要配置，默认 false)<br>katex	     【可选】显示katex(当设置katex的per_page: false时，才需要配置，默认 false)<br>aside	     【可选】显示侧边栏 (默认 true)<br>aplayer	     【可选】在需要的页面加载aplayer的js和css,请参考文章下面的音乐 配置<br>highlight_shrink	【可选】配置代码框是否展开(true&#x2F;false)(默认为设置中highlight_shrink的配置)</p>
+<figure class="highlight plaintext"><figcaption><span>Front-matter</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title:</span><br><span class="line">date:</span><br><span class="line">updated:</span><br><span class="line">tags:</span><br><span class="line">categories:</span><br><span class="line">keywords:</span><br><span class="line">description:</span><br><span class="line">top_img:</span><br><span class="line">comments:</span><br><span class="line">cover:</span><br><span class="line">toc:</span><br><span class="line">toc_number:</span><br><span class="line">toc_style_simple:</span><br><span class="line">copyright:</span><br><span class="line">copyright_author:</span><br><span class="line">copyright_author_href:</span><br><span class="line">copyright_url:</span><br><span class="line">copyright_info:</span><br><span class="line">mathjax:</span><br><span class="line">katex:</span><br><span class="line">aplayer:</span><br><span class="line">highlight_shrink:</span><br><span class="line">aside:</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+<p>写法	     解释<br>title	    【必需】文章标题<br>date	    【必需】文章创建日期<br>updated	    【可选】文章更新日期<br>tags	    【可选】文章标籤<br>categories	【可选】文章分类<br>keywords	【可选】文章关键字<br>description	【可选】文章描述<br>top_img	    【可选】文章顶部图片<br>cover	    【可选】文章缩略图(如果没有设置top_img,文章页顶部将显示缩略图，可设为false&#x2F;图片地址&#x2F;留空)<br>comments	【可选】显示文章评论模块(默认 true)<br>toc	        【可选】显示文章TOC(默认为设置中toc的enable配置)<br>toc_number	【可选】显示toc_number(默认为设置中toc的number配置)<br>toc_style_simple	【可选】显示 toc 简洁模式<br>copyright	【可选】显示文章版权模块(默认为设置中post_copyright的enable配置)<br>copyright_author	【可选】文章版权模块的文章作者<br>copyright_author_href	【可选】文章版权模块的文章作者链接<br>copyright_url	【可选】文章版权模块的文章连结链接<br>copyright_info	【可选】文章版权模块的版权声明文字<br>mathjax	        【可选】显示mathjax(当设置mathjax的per_page: false时，才需要配置，默认 false)<br>katex	        【可选】显示katex(当设置katex的per_page: false时，才需要配置，默认 false)<br>aplayer	         【可选】在需要的页面加载aplayer的js和css,请参考文章下面的音乐 配置<br>highlight_shrink	【可选】配置代码框是否展开(true&#x2F;false)(默认为设置中highlight_shrink的配置)<br>aside	         【可选】显示侧边栏 (默认 true)</p>
+<p>标签页tags:<br>分类页categories:<br>友情链接links:</p>
+<p>修改站点配置文件_config.yml，路径为【BlogRoot&#x2F;_config.yml】。</p>
+<p>修改主题配置文件_config.butterfly.yml，路径为【BlogRoot&#x2F;_config.butterfly.yml】。</p>
+<p>语言<br>修改站点配置文件_config.yml，默认语言是 en 。</p>
+<p>主题支持三种语言：</p>
+<p>default(en)<br>zh-CN (简体中文)<br>zh-TW (繁体中文)</p>
+<p>网站资料<br>修改网站各种资料，例如标题、副标题和邮箱等个人资料，请修改站点配置文件_config.yml。部分参数如下，详细参数可参考官方的<a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/configuration">配置描述</a>。</p>
+<p>参数	描述<br>title	网站标题<br>subtitle	描述<br>description	网站描述<br>keywords	网站的关键词。支持多个关键词。<br>author	您的名字<br>language	网站使用的语言。对于简体中文用户来说，使用不同的主题可能需要设置成不同的值，请参考你的主题的文档自行设置，常见的有 zh-Hans和 zh-CN。<br>timezone	网站时区。Hexo 默认使用您电脑的时区。请参考 时区列表 进行设置，如 America&#x2F;New_York, Japan, 和 UTC 。一般的，对于中国大陆地区可以使用 Asia&#x2F;Shanghai。</p>
+<p>导航菜单<br>修改主题配置文件_config.butterfly.yml。</p>
+<p>导航栏设置<br>修改主题配置文件_config.butterfly.yml。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">nav:</span><br><span class="line">  logo: #image</span><br><span class="line">  display_title: true</span><br><span class="line">  fixed: false # fixed navigation bar</span><br></pre></td></tr></table></figure>
+<p>参数	解释<br>logo	网站的 logo，支持图片，直接填入图片链接<br>display_title	是否显示网站标题，填写 true 或者 false<br>fixed	是否固定状态栏，填写 true 或者 false</p>
+<p>代码</p>
+<p>代码高亮主题<br>Butterfly支持 6 种代码高亮样式：</p>
+<p>darker<br>pale night<br>light<br>ocean<br>mac<br>mac light<br>修改主题配置文件_config.butterfly.yml。中的highlight_theme属性。</p>
+<p>代码复制<br>修改主题配置文件_config.butterfly.yml。中的highlight_copy属性。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">highlight_copy: true</span><br></pre></td></tr></table></figure>
+
+<p>代码框展开&#x2F;关闭<br>修改主题配置文件_config.butterfly.yml。中的highlight_shrink属性。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">highlight_shrink: true #代码框不展开，需点击 &#x27;&gt;&#x27; 打开</span><br></pre></td></tr></table></figure>
+
+<p>在默认情况下，代码框自动展开，可设置是否所有代码框都关闭状态，点击&gt;可展开代码。</p>
+<p>true 全部代码框不展开，需点击&gt;打开<br>false 代码框展开，有&gt;点击按钮<br>none 不显示&gt;按钮</p>
+<p>代码换行<br>在默认情况下，Hexo 在编译的时候不会实现代码自动换行。如果你不希望在代码块的区域里有横向滚动条的话，那么你可以考虑开启这个功能。</p>
+<p>修改主题配置文件_config.butterfly.yml。中的code_word_wrap属性。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">code_word_wrap: true</span><br></pre></td></tr></table></figure>
+
+<p>代码高度限制<br>可配置代码高度限制，超出的部分会隐藏，并显示展开按钮。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">highlight_height_limit: false # unit: px</span><br></pre></td></tr></table></figure>
+<p>注意：</p>
+<p>单位是px，直接添加数字，如 200<br>实际限制高度为highlight_height_limit + 30 px ，多增加 30px 限制，目的是避免代码高度只超出highlight_height_limit 一点时，出现展开按钮，展开没内容。<br>不适用于隐藏后的代码块（ css 设置 display: none）。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">joyfu11y</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2025/06/24/My-New-Post/">http://example.com/2025/06/24/My-New-Post/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">joyfu11yの小屋</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2025/07/14/Front-matter/" title="Front-matter"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Front-matter</div></div><div class="info-2"><div class="info-item-1">Front-matter </div></div></div></a><a class="pagination-related" href="/2025/06/23/hello-world/" title="Hello World"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Hello World</div></div><div class="info-2"><div class="info-item-1">Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new &quot;My New Post&quot;  More info: Writing Run server1$ hexo server  More info: Server Generate static files1$ hexo generate  More info: Generating Deploy to remote sites1$ hexo deploy  More info: Deployment </div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">joyfu11y</div><div class="author-info-description">正在搭建中</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/07/19/%E5%8D%95%E8%AF%8D/" title="单词">单词</a><time datetime="2025-07-19T02:20:41.000Z" title="发表于 2025-07-19 10:20:41">2025-07-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/07/14/markdown%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" title="markdown基本语法">markdown基本语法</a><time datetime="2025-07-14T13:50:37.000Z" title="发表于 2025-07-14 21:50:37">2025-07-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/07/14/Front-matter/" title="Front-matter">Front-matter</a><time datetime="2025-07-14T13:47:55.000Z" title="发表于 2025-07-14 21:47:55">2025-07-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/06/24/My-New-Post/" title="My New Post">My New Post</a><time datetime="2025-06-24T01:15:45.000Z" title="发表于 2025-06-24 09:15:45">2025-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/06/23/hello-world/" title="Hello World">Hello World</a><time datetime="2025-06-23T15:54:10.857Z" title="发表于 2025-06-23 23:54:10">2025-06-23</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;2025 By joyfu11y</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.4.0-b2</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
